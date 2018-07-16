@@ -1,0 +1,73 @@
+---
+- name:  Configure Organization | Validate Required Parameters
+  assert:
+    that:
+    - "satellite_organization is defined"
+    - "satellite_organization['name'] is defined"
+
+- name:  Configure Organization | Create Organization
+  foreman:
+    server_url: "{{ satellite_url }}"
+    username: "{{ satellite_username }}"
+    password: "{{ satellite_password }}"
+    entity: organization
+    params:
+      name: "{{ satellite_organization['name'] }}"
+  delegate_to: "{{ satellite_api_basion }}"
+  tags:
+  - satellite_organizations
+
+- name:  Configure Organization | Upload Manifest
+  katello:
+    server_url: "{{ satellite_url }}"
+    username: "{{ satellite_username }}"
+    password: "{{ satellite_password }}"
+    entity: manifest
+    params:
+      name: "{{ satellite_organization['name'] }}"
+      content: "{{ satellite_organization['manifest'] }}"
+      src: "{{ satellite_organization['manifest'] }}"
+      organization: "{{ satellite_organization['name'] }}"
+  delegate_to: "{{ satellite_api_basion }}"
+  when: satellite_organization['manifest'] is defined
+  tags:
+  - satellite_manifests
+
+- name:  Configure Organization | Include Tasks to Create Lifecycle Environment Path
+  include_tasks: create-lifecycle-environment-path.yml
+  loop: "{{ satellite_organization['lifecycle_environment_paths'] }}"
+  loop_control:
+    loop_var: lifecycle_environment_path
+  when: satellite_organization['lifecycle_environment_paths'] is defined
+  tags:
+  - satellite_lifecycle_environments
+
+- name: Configure Organization | Enable Red Hat Repository
+  katello:
+    server_url: "{{ satellite_url }}"
+    username: "{{ satellite_username }}"
+    password: "{{ satellite_password }}"
+    entity: repository_set
+    params: "{{ repository | combine({ 'organization': satellite_organization['name'] }) }}"
+  loop: "{{ satellite_organization['repositories'] }}"
+  loop_control:
+    loop_var: repository
+  delegate_to: "{{ satellite_api_basion }}"
+  when: satellite_organization['repositories'] is defined
+  tags:
+  - satellite_repositories
+
+- name: Configure Organization | Create Sync Plans
+  katello:
+    server_url: "{{ satellite_url }}"
+    username: "{{ satellite_username }}"
+    password: "{{ satellite_password }}"
+    entity: sync_plan
+    params: "{{ sync_plan | combine({ 'organization': satellite_organization['name'] }) }}"
+  loop: "{{ satellite_organization['sync_plans'] }}"
+  loop_control:
+    loop_var: sync_plan
+  delegate_to: "{{ satellite_api_basion }}"
+  when: satellite_organization['sync_plans'] is defined
+  tags:
+  - satellite_sync_plans

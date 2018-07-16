@@ -1,1 +1,19 @@
 ---
+- name: Verify Variables
+  assert:
+    that:
+      - "satellite_organizations is defined"
+  
+- name: Include Tasks to Configure Organization
+  include_tasks: configure-organization.yml
+  vars:
+    satellite_organization: "{{ satellite_organization_default_values | combine(satellite_organization_item) }}"
+  loop: "{{ satellite_organizations }}"
+  loop_control:
+    loop_var: satellite_organization_item
+  tags:
+  - satellite_organizations
+  - satellite_manifests
+  - satellite_lifecycle_environments
+  - satellite_repositories
+  - satellite_sync_plans

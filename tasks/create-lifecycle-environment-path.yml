@@ -1,0 +1,24 @@
+---
+- name: Create Lifecycle Environment Path | Validate Required Parameters
+  assert:
+    that:
+    - "satellite_organization is defined"
+    - "satellite_organization['name'] is defined"
+    - "lifecycle_environment_path is defined"
+    - "lifecycle_environment_path['environments'] is defined"
+
+- name: Create Lifecycle Environment Path | Create Lifecycle Environment
+  katello:
+    server_url: "{{ satellite_url }}"
+    username: "{{ satellite_username }}"
+    password: "{{ satellite_password }}"
+    entity: lifecycle_environment
+    params:
+      name: "{{ lifecycle_environment }}"
+      prior: "{{ ((lifecycle_environment_index-1) >= 0) | ternary(lifecycle_environment_path['environments'][lifecycle_environment_index-1], 'Library') }}"
+      organization: "{{ satellite_organization['name'] }}"
+  loop: "{{ lifecycle_environment_path['environments'] }}"
+  loop_control:
+    index_var: lifecycle_environment_index
+    loop_var: lifecycle_environment
+  delegate_to: "{{ satellite_api_basion }}"
