@@ -1,0 +1,25 @@
+galaxy_info:
+  author: Ian Tewksbury
+  description: Ansible role for configuring everything about the Organizations in Satellite 6.
+  company: Red Hat, Inc.
+  license: license (Apache)
+  min_ansible_version: 2.6
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - satellite
+    - katello
+    - formean
+    - redhat
+    - rhc
+    - tools
+  categories:
+    - satellite
+    - katello
+    - formean
+    - redhat
+    - rhc
+    - tools
+dependencies: []
