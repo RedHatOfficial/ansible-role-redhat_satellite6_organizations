@@ -71,3 +71,21 @@
   when: satellite_organization['sync_plans'] is defined
   tags:
   - satellite_sync_plans
+
+- name: Configure Organization | Immediate Sync Products
+  katello:
+    server_url: "{{ satellite_url }}"
+    username: "{{ satellite_username }}"
+    password: "{{ satellite_password }}"
+    entity: product
+    action: sync
+    params:
+      name: "{{ immediate_sync_product }}"
+      organization: "{{ satellite_organization['name'] }}"
+  loop: "{{ satellite_organization['immediate_sync_products'] }}"
+  loop_control:
+    loop_var: immediate_sync_product
+  delegate_to: "{{ satellite_api_basion }}"
+  when: satellite_organization['immediate_sync_products'] is defined
+  tags:
+  - satellite_immediate_sync

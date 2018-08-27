@@ -17,3 +17,4 @@
   - satellite_lifecycle_environments
   - satellite_repositories
   - satellite_sync_plans
+  - satellite_immediate_sync
