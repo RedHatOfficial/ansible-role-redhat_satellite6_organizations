@@ -72,7 +72,7 @@
   tags:
   - satellite_sync_plans
 
-- name: Configure Organization | Immediate Sync Products
+- name: Configure Organization | Immediate Sync Products Async
   katello:
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
@@ -86,6 +86,23 @@
   loop_control:
     loop_var: immediate_sync_product
   delegate_to: "{{ satellite_api_basion }}"
+  register: immediate_sync_products_results
+  async: 3600
+  poll: 0
   when: satellite_organization['immediate_sync_products'] is defined
+  tags:
+  - satellite_immediate_sync
+
+- name: Configure Organizations | Immediate Sync Products Async | Wait for async tasks
+  async_status:
+    jid: "{{ immediate_sync_products_result.ansible_job_id }}"
+  loop: "{{ immediate_sync_products_results.results }}"
+  loop_control:
+    loop_var: "immediate_sync_products_result"
+  register: async_immediate_sync_products_results
+  until: async_immediate_sync_products_results.finished
+  retries: 120
+  sleep: 30
+  delegate_to: localhost
   tags:
   - satellite_immediate_sync

@@ -28,6 +28,7 @@ Details about the `satellite_organizations` role variable dictionary.
 | lifecycle\_environment\_paths |
 | repositories                  |
 | sync\_plans                   |
+| immediate\_sync\_products     |
 
 # Example Playbook
 
@@ -94,6 +95,12 @@ Details about the `satellite_organizations` role variable dictionary.
         - Red Hat OpenShift Container Platform
         - Red Hat CloudForms
         - Red Hat Ansible Engine
+      immediate_sync_products:
+      - Red Hat Enterprise Linux Server
+      - Red Hat Satellite
+      - Red Hat OpenShift Container Platform
+      - Red Hat CloudForms
+      - Red Hat Ansible Engine
   roles:
   - redhat_satellite6_organizations
 ```
