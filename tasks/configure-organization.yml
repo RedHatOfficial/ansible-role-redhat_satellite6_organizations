@@ -59,13 +59,26 @@
   tags:
   - satellite_repositories
 
+- debug:
+    msg: "{{ sync_plan['sync_date'] | default(ansible_date_time.date + ' ' + ansible_date_time.time) }}"
+  loop: "{{ satellite_organization['sync_plans'] }}"
+  loop_control:
+    loop_var: sync_plan
+  tags:
+  - satellite_sync_plans
+
 - name: Configure Organization | Create Sync Plans
-  katello:
+  katello_sync_plan:
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    entity: sync_plan
-    params: "{{ sync_plan | combine({ 'organization': satellite_organization['name'] }) }}"
+    name: "{{ sync_plan['name'] }}"
+    interval: "{{ sync_plan['interval'] }}"
+    products: "{{ sync_plan['products'] }}"
+    sync_date: "{{ sync_plan['sync_date'] | default(ansible_date_time.date + ' 00:00:00') }}"
+    enabled: "{{ sync_plan['enabled'] | default(True) }}"
+    organization: "{{ satellite_organization['name'] }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ satellite_organization['sync_plans'] }}"
   loop_control:
     loop_var: sync_plan

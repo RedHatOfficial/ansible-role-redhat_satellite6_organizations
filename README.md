@@ -87,15 +87,14 @@ Details about the `satellite_organizations` role variable dictionary.
         basearch: x86_64
       sync_plans:
       - name: All - Nightly
-        sync_date: '00:00'
         interval: daily
         products:
-        - Red Hat Enterprise Linux Server
-        - Red Hat Satellite
-        - Red Hat Satellite Capsule
-        - Red Hat OpenShift Container Platform
-        - Red Hat CloudForms
-        - Red Hat Ansible Engine
+        - name: Red Hat Enterprise Linux Server
+        - name: Red Hat Satellite
+        - name: Red Hat Satellite Capsule
+        - name: Red Hat OpenShift Container Platform
+        - name: Red Hat CloudForms
+        - name: Red Hat Ansible Engine
       immediate_sync_products:
       - Red Hat Enterprise Linux Server
       - Red Hat Satellite
