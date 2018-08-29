@@ -43,12 +43,18 @@
   - satellite_lifecycle_environments
 
 - name: Configure Organization | Enable Red Hat Repository
-  katello:
+  katello_repository_set:
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    entity: repository_set
-    params: "{{ repository | combine({ 'organization': satellite_organization['name'] }) }}"
+    name: "{{ repository['name'] }}"
+    product: "{{ repository['product'] }}"
+    organization: "{{ satellite_organization['name'] }}"
+    repositories:
+    - releasever: "{{ repository['releasever'] | default() }}"
+      basearch: "{{ repository['basearch'] }}"
+    state: enabled
+    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ satellite_organization['repositories'] }}"
   loop_control:
     loop_var: repository
