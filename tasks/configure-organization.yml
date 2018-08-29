@@ -18,16 +18,13 @@
   - satellite_organizations
 
 - name:  Configure Organization | Upload Manifest
-  katello:
+  katello_manifest:
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    entity: manifest
-    params:
-      name: "{{ satellite_organization['name'] }}"
-      content: "{{ satellite_organization['manifest'] }}"
-      src: "{{ satellite_organization['manifest'] }}"
-      organization: "{{ satellite_organization['name'] }}"
+    organization: "{{ satellite_organization['name'] }}"
+    manifest_path: "{{ satellite_organization['manifest'] }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
   delegate_to: "{{ satellite_api_basion }}"
   when: satellite_organization['manifest'] is defined
   tags:
