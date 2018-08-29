@@ -59,14 +59,6 @@
   tags:
   - satellite_repositories
 
-- debug:
-    msg: "{{ sync_plan['sync_date'] | default(ansible_date_time.date + ' ' + ansible_date_time.time) }}"
-  loop: "{{ satellite_organization['sync_plans'] }}"
-  loop_control:
-    loop_var: sync_plan
-  tags:
-  - satellite_sync_plans
-
 - name: Configure Organization | Create Sync Plans
   katello_sync_plan:
     server_url: "{{ satellite_url }}"
