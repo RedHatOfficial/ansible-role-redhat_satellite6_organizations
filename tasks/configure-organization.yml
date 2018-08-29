@@ -108,12 +108,14 @@
   - satellite_immediate_sync
 
 - name: Configure Organizations | Create Content Views
-  katello:
+  katello_content_view:
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    entity: content_view
-    params: "{{ content_view | combine({ 'organization': satellite_organization['name'] }) }}"
+    organization: "{{ satellite_organization['name'] }}"
+    name: "{{ content_view['name'] }}"
+    repositories: "{{ content_view['repositories'] }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ satellite_organization['content_views'] }}"
   loop_control:
     loop_var: content_view
