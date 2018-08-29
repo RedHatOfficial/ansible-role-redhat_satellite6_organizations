@@ -6,19 +6,22 @@
     - "satellite_organization['name'] is defined"
     - "lifecycle_environment_path is defined"
     - "lifecycle_environment_path['environments'] is defined"
+  tags:
+  - satellite_lifecycle_environments
 
 - name: Create Lifecycle Environment Path | Create Lifecycle Environment
-  katello:
+  katello_lifecycle_environment:
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    entity: lifecycle_environment
-    params:
-      name: "{{ lifecycle_environment }}"
-      prior: "{{ ((lifecycle_environment_index-1) >= 0) | ternary(lifecycle_environment_path['environments'][lifecycle_environment_index-1], 'Library') }}"
-      organization: "{{ satellite_organization['name'] }}"
+    name: "{{ lifecycle_environment }}"
+    prior: "{{ ((lifecycle_environment_index-1) >= 0) | ternary(lifecycle_environment_path['environments'][lifecycle_environment_index-1], 'Library') }}"
+    organization: "{{ satellite_organization['name'] }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ lifecycle_environment_path['environments'] }}"
   loop_control:
     index_var: lifecycle_environment_index
     loop_var: lifecycle_environment
   delegate_to: "{{ satellite_api_basion }}"
+  tags:
+  - satellite_lifecycle_environments
