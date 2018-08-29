@@ -6,13 +6,12 @@
     - "satellite_organization['name'] is defined"
 
 - name:  Configure Organization | Create Organization
-  foreman:
+  foreman_organization:
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    entity: organization
-    params:
-      name: "{{ satellite_organization['name'] }}"
+    name: "{{ satellite_organization['name'] }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
   delegate_to: "{{ satellite_api_basion }}"
   tags:
   - satellite_organizations
