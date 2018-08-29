@@ -80,15 +80,13 @@
   - satellite_sync_plans
 
 - name: Configure Organization | Immediate Sync Products Async
-  katello:
+  katello_sync:
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    entity: product
-    action: sync
-    params:
-      name: "{{ immediate_sync_product }}"
-      organization: "{{ satellite_organization['name'] }}"
+    product: "{{ immediate_sync_product }}"
+    organization: "{{ satellite_organization['name'] }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ satellite_organization['immediate_sync_products'] }}"
   loop_control:
     loop_var: immediate_sync_product
