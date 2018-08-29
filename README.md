@@ -29,6 +29,7 @@ Details about the `satellite_organizations` role variable dictionary.
 | repositories                  |
 | sync\_plans                   |
 | immediate\_sync\_products     |
+| content\_views                |
 
 # Example Playbook
 
@@ -52,8 +53,7 @@ Details about the `satellite_organizations` role variable dictionary.
         - foo
         - bar
       repositories:
-      - name: Red Hat Enterprise Linux 7 Server (RPMs)
-        product: Red Hat Enterprise Linux Server
+      - name: Red Hat Enterprise Linux 7 Server (RPMs) product: Red Hat Enterprise Linux Server
         basearch: x86_64
         releasever: "7Server"
       - name: Red Hat Enterprise Linux 7 Server - Extras (RPMs)
@@ -92,15 +92,50 @@ Details about the `satellite_organizations` role variable dictionary.
         products:
         - Red Hat Enterprise Linux Server
         - Red Hat Satellite
+        - Red Hat Satellite Capsule
         - Red Hat OpenShift Container Platform
         - Red Hat CloudForms
         - Red Hat Ansible Engine
       immediate_sync_products:
       - Red Hat Enterprise Linux Server
       - Red Hat Satellite
+      - Red Hat Satellite Capsule
       - Red Hat OpenShift Container Platform
       - Red Hat CloudForms
       - Red Hat Ansible Engine
+      content_views:
+      - name: rhel7
+        repositories:
+        - name: Red Hat Enterprise Linux 7 Server RPMs x86_64 7Server
+          product: Red Hat Enterprise Linux Server
+        - name: Red Hat Satellite Tools 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64
+          product: Red Hat Enterprise Linux Server
+      - name: rhel7_additional
+        repositories:
+        - name: Red Hat Enterprise Linux 7 Server - Optional RPMs x86_64 7Server
+          product: Red Hat Enterprise Linux Server
+        - name: Red Hat Enterprise Linux 7 Server - Supplementary RPMs x86_64 7Server
+          product: Red Hat Enterprise Linux Server
+        - name: Red Hat Enterprise Linux 7 Server - Extras RPMs x86_64
+          product: Red Hat Enterprise Linux Server
+      - name: cfme59
+        repositories:
+        - name: Red Hat CloudForms Management Engine 5.9 RPMs x86_64
+          product: Red Hat CloudForms
+      - name: ocp39
+        repositories:
+        - name: Red Hat OpenShift Container Platform 3.8 RPMs x86_64
+          product: Red Hat OpenShift Container Platform
+        - name: Red Hat OpenShift Container Platform 3.9 RPMs x86_64
+          product: Red Hat OpenShift Container Platform
+      - name: ansible26
+        repositories:
+        - name: Red Hat Ansible Engine 2.6 RPMs for Red Hat Enterprise Linux 7 Server x86_64
+          product: Red Hat Ansible Engine
+      - name: sat_cap63
+        repositories:
+        - name: Red Hat Satellite Capsule 6.3 - Puppet 4 for RHEL 7 Server RPMs x86_64
+          product: Red Hat Satellite Capsule
   roles:
   - redhat_satellite6_organizations
 ```

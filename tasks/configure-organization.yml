@@ -99,10 +99,25 @@
   loop: "{{ immediate_sync_products_results.results }}"
   loop_control:
     loop_var: "immediate_sync_products_result"
+  delegate_to: localhost
   register: async_immediate_sync_products_results
   until: async_immediate_sync_products_results.finished
   retries: 120
   sleep: 30
-  delegate_to: localhost
   tags:
   - satellite_immediate_sync
+
+- name: Configure Organizations | Create Content Views
+  katello:
+    server_url: "{{ satellite_url }}"
+    username: "{{ satellite_username }}"
+    password: "{{ satellite_password }}"
+    entity: content_view
+    params: "{{ content_view | combine({ 'organization': satellite_organization['name'] }) }}"
+  loop: "{{ satellite_organization['content_views'] }}"
+  loop_control:
+    loop_var: content_view
+  delegate_to: "{{ satellite_api_basion }}"
+  when: satellite_organization['content_views'] is defined
+  tags:
+  - satellite_content_views
