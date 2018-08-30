@@ -14,10 +14,10 @@
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
+    organization: "{{ satellite_organization['name'] }}"
     name: "{{ lifecycle_environment }}"
     prior: "{{ ((lifecycle_environment_index-1) >= 0) | ternary(lifecycle_environment_path['environments'][lifecycle_environment_index-1], 'Library') }}"
-    organization: "{{ satellite_organization['name'] }}"
-    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ lifecycle_environment_path['environments'] }}"
   loop_control:
     index_var: lifecycle_environment_index

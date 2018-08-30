@@ -10,8 +10,8 @@
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    name: "{{ satellite_organization['name'] }}"
     verify_ssl: "{{ satellite_verify_ssl }}"
+    name: "{{ satellite_organization['name'] }}"
   delegate_to: "{{ satellite_api_basion }}"
   tags:
   - satellite_organizations
@@ -21,9 +21,9 @@
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
     organization: "{{ satellite_organization['name'] }}"
     manifest_path: "{{ satellite_organization['manifest'] }}"
-    verify_ssl: "{{ satellite_verify_ssl }}"
   delegate_to: "{{ satellite_api_basion }}"
   when: satellite_organization['manifest'] is defined
   tags:
@@ -43,14 +43,14 @@
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
+    organization: "{{ satellite_organization['name'] }}"
     name: "{{ repository['name'] }}"
     product: "{{ repository['product'] }}"
-    organization: "{{ satellite_organization['name'] }}"
     repositories:
     - releasever: "{{ repository['releasever'] | default() }}"
       basearch: "{{ repository['basearch'] }}"
     state: enabled
-    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ satellite_organization['repositories'] }}"
   loop_control:
     loop_var: repository
@@ -64,13 +64,13 @@
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
+    organization: "{{ satellite_organization['name'] }}"
     name: "{{ sync_plan['name'] }}"
     interval: "{{ sync_plan['interval'] }}"
     products: "{{ sync_plan['products'] }}"
     sync_date: "{{ sync_plan['sync_date'] | default(ansible_date_time.date + ' 00:00:00') }}"
     enabled: "{{ sync_plan['enabled'] | default(True) }}"
-    organization: "{{ satellite_organization['name'] }}"
-    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ satellite_organization['sync_plans'] }}"
   loop_control:
     loop_var: sync_plan
@@ -84,9 +84,9 @@
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
-    product: "{{ immediate_sync_product }}"
-    organization: "{{ satellite_organization['name'] }}"
     verify_ssl: "{{ satellite_verify_ssl }}"
+    organization: "{{ satellite_organization['name'] }}"
+    product: "{{ immediate_sync_product }}"
   loop: "{{ satellite_organization['immediate_sync_products'] }}"
   loop_control:
     loop_var: immediate_sync_product
@@ -117,10 +117,10 @@
     server_url: "{{ satellite_url }}"
     username: "{{ satellite_username }}"
     password: "{{ satellite_password }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
     organization: "{{ satellite_organization['name'] }}"
     name: "{{ content_view['name'] }}"
     repositories: "{{ content_view['repositories'] }}"
-    verify_ssl: "{{ satellite_verify_ssl }}"
   loop: "{{ satellite_organization['content_views'] }}"
   loop_control:
     loop_var: content_view
