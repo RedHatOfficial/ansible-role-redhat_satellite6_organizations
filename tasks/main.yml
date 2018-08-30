@@ -19,3 +19,4 @@
   - satellite_sync_plans
   - satellite_immediate_sync
   - satellite_content_views
+  - satellite_composite_content_views

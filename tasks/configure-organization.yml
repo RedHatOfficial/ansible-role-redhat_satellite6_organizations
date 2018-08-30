@@ -128,3 +128,21 @@
   when: satellite_organization['content_views'] is defined
   tags:
   - satellite_content_views
+
+- name: Configure Organizations | Create Composite Content Views
+  katello_content_view:
+    server_url: "{{ satellite_url }}"
+    username: "{{ satellite_username }}"
+    password: "{{ satellite_password }}"
+    verify_ssl: "{{ satellite_verify_ssl }}"
+    organization: "{{ satellite_organization['name'] }}"
+    name: "{{ composite_content_view['name'] }}"
+    composite: True
+    content_views: "{{ composite_content_view['content_views'] }}"
+  loop: "{{ satellite_organization['composite_content_views'] }}"
+  loop_control:
+    loop_var: composite_content_view
+  delegate_to: "{{ satellite_api_basion }}"
+  when: satellite_organization['composite_content_views'] is defined
+  tags:
+  - satellite_composite_content_views
